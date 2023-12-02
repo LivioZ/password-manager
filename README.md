@@ -1,0 +1,1 @@
+# CLI Password Manager written in Go
