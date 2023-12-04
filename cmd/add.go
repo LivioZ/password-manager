@@ -10,16 +10,22 @@ import (
 )
 
 var username string
-var password string
 var other string
 
 var addCmd = &cobra.Command{
 	Use:   "add entry-name",
 	Short: "Add an entry in the database with the specified name and optional fields",
 	Long:  "Add entry in the database. Specify fields using flags",
-	Args:  cobra.RangeArgs(1, 1),
+	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		name := args[0]
+		var password string
+
+		fmt.Print("Insert new entry's password: ")
+		_, err := fmt.Scanln(&password)
+		if err != nil {
+			log.Fatalln(err)
+		}
 
 		fmt.Print("Insert master password: ")
 		masterPassword, err := term.ReadPassword(syscall.Stdin)
@@ -41,7 +47,7 @@ var addCmd = &cobra.Command{
 			log.Fatalln(err)
 		}
 
-		fmt.Printf("Entry '%s' added successfully", name)
+		fmt.Printf("Entry '%s' added successfully\n", name)
 
 		err = vault.LockVault(dbPath, vaultKey)
 		if err != nil {
@@ -54,6 +60,5 @@ func init() {
 	rootCmd.AddCommand(addCmd)
 
 	addCmd.Flags().StringVarP(&username, "username", "u", "", "username or email")
-	addCmd.Flags().StringVarP(&password, "password", "p", "", "password or secret")
 	addCmd.Flags().StringVarP(&other, "other", "o", "", "anything else")
 }
