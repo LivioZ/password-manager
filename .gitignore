@@ -40,3 +40,4 @@ dist/
 key.bin
 vault.db
 password-manager
+build
