@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"errors"
+	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -24,4 +26,12 @@ func Execute() {
 
 func init() {
 
+}
+
+func exitIfVaultDoesNotExist() {
+	// check if vault does not exist in current directory
+	if _, err := os.Stat(dbPath); errors.Is(err, os.ErrNotExist) {
+		fmt.Println("Vault doesn't exist in current directory\nRun `password-manager init` to initialize vault")
+		os.Exit(1)
+	}
 }

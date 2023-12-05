@@ -15,6 +15,9 @@ var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List vault entries",
 	Long:  "List vault entries. It is possible to filter entries.",
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		exitIfVaultDoesNotExist()
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Print("Insert master password: ")
 		masterPassword, err := term.ReadPassword(syscall.Stdin)

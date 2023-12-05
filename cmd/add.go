@@ -17,6 +17,9 @@ var addCmd = &cobra.Command{
 	Short: "Add an entry in the database with the specified name and optional fields",
 	Long:  "Add entry in the database. Specify fields using flags",
 	Args:  cobra.ExactArgs(1),
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		exitIfVaultDoesNotExist()
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		name := args[0]
 		var password string

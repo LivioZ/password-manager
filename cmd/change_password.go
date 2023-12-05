@@ -16,6 +16,9 @@ var changePWD = &cobra.Command{
 	Use:   "change-pwd [key-path]",
 	Short: "Change master password",
 	Long:  "Change the master password by re-encrypting the key file",
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		exitIfVaultDoesNotExist()
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 2 {
 			keyPath = args[1]

@@ -13,6 +13,9 @@ var decryptCmd = &cobra.Command{
 	Use:   "unlock",
 	Short: "Decrypt the vault",
 	Long:  "The database file gets decrypted with AES-256 GCM using the master password",
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		exitIfVaultDoesNotExist()
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Print("Insert master password: ")
 		masterPassword, err := term.ReadPassword(syscall.Stdin)

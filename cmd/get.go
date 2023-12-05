@@ -18,6 +18,9 @@ var getCmd = &cobra.Command{
 	Use:   "get",
 	Short: "list all entries and select one",
 	Long:  "list all entries, choose one and then decide to copy Username, Password or Other field",
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		exitIfVaultDoesNotExist()
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		err := clipboard.Init()
 		if err != nil {

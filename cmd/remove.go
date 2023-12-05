@@ -16,6 +16,9 @@ var deleteCmd = &cobra.Command{
 	Use:   "delete",
 	Short: "Delete an entry from vault",
 	Long:  "Delete an entry from vault.",
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		exitIfVaultDoesNotExist()
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Print("Insert master password: ")
 		masterPassword, err := term.ReadPassword(syscall.Stdin)
