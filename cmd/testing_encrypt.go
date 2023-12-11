@@ -18,7 +18,7 @@ var encryptCmd = &cobra.Command{
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Print("Insert master password: ")
-		masterPassword, err := term.ReadPassword(syscall.Stdin)
+		masterPassword, err := term.ReadPassword(int(syscall.Stdin))
 		fmt.Println()
 		if err != nil {
 			log.Fatalln(err)

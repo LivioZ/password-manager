@@ -24,14 +24,14 @@ var changePWD = &cobra.Command{
 			keyPath = args[1]
 		}
 		fmt.Print("Insert current master password: ")
-		currentMasterPassword, err := term.ReadPassword(syscall.Stdin)
+		currentMasterPassword, err := term.ReadPassword(int(syscall.Stdin))
 		fmt.Println()
 		if err != nil {
 			log.Fatal(err)
 		}
 
 		fmt.Printf("Input the new master password: ")
-		newMasterPassword, err := term.ReadPassword(syscall.Stdin)
+		newMasterPassword, err := term.ReadPassword(int(syscall.Stdin))
 		fmt.Println()
 		if err != nil {
 			log.Fatal(err)
@@ -44,7 +44,7 @@ var changePWD = &cobra.Command{
 		}
 
 		fmt.Printf("Repeat the new master password: ")
-		newMasterPasswordRepeat, err := term.ReadPassword(syscall.Stdin)
+		newMasterPasswordRepeat, err := term.ReadPassword(int(syscall.Stdin))
 		fmt.Println()
 		if err != nil {
 			log.Fatal(err)

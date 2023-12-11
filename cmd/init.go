@@ -20,7 +20,7 @@ var initCmd = &cobra.Command{
 	Long:  "Initialize vault by choosing the master password. It creates the database and encryption key files",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Printf("Input the master password: ")
-		masterPassword, err := term.ReadPassword(syscall.Stdin)
+		masterPassword, err := term.ReadPassword(int(syscall.Stdin))
 		fmt.Println()
 		if err != nil {
 			log.Fatal(err)
@@ -30,7 +30,7 @@ var initCmd = &cobra.Command{
 		}
 
 		fmt.Printf("Repeat the master password: ")
-		masterPasswordRepeat, err := term.ReadPassword(syscall.Stdin)
+		masterPasswordRepeat, err := term.ReadPassword(int(syscall.Stdin))
 		fmt.Println()
 		if err != nil {
 			log.Fatal(err)

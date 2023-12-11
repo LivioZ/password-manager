@@ -31,7 +31,7 @@ var addCmd = &cobra.Command{
 		}
 
 		fmt.Print("Insert master password: ")
-		masterPassword, err := term.ReadPassword(syscall.Stdin)
+		masterPassword, err := term.ReadPassword(int(syscall.Stdin))
 		fmt.Println()
 		if err != nil {
 			log.Fatalln(err)
