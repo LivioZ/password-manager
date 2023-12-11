@@ -47,6 +47,10 @@ var addCmd = &cobra.Command{
 
 		err = vault.AddEntry(dbPath, name, username, password, other)
 		if err != nil {
+			errLock := vault.LockVault(dbPath, vaultKey)
+			if errLock != nil {
+				log.Println(err)
+			}
 			log.Fatalln(err)
 		}
 

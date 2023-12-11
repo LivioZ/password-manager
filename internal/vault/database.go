@@ -2,7 +2,6 @@ package vault
 
 import (
 	"database/sql"
-	"log"
 )
 
 type VaultEntry struct {
@@ -52,7 +51,7 @@ func SearchVaultEntries(dbFilePath string, searchTerm string) (result []VaultEnt
 	defer func(db *sql.DB) {
 		err := db.Close()
 		if err != nil {
-			log.Fatal(err)
+
 		}
 	}(db)
 
@@ -63,7 +62,7 @@ func SearchVaultEntries(dbFilePath string, searchTerm string) (result []VaultEnt
 	defer func(rows *sql.Rows) {
 		err := rows.Close()
 		if err != nil {
-			log.Fatal(err)
+
 		}
 	}(rows)
 
@@ -98,7 +97,7 @@ func ListVaultEntries(dbFilePath string) (result []VaultEntry, err error) {
 	defer func(db *sql.DB) {
 		err := db.Close()
 		if err != nil {
-			log.Fatal(err)
+
 		}
 	}(db)
 
@@ -109,7 +108,7 @@ func ListVaultEntries(dbFilePath string) (result []VaultEntry, err error) {
 	defer func(rows *sql.Rows) {
 		err := rows.Close()
 		if err != nil {
-			log.Fatal(err)
+
 		}
 	}(rows)
 
@@ -150,7 +149,7 @@ func AddEntry(dbFilePath string, name string, username string, password string, 
 
 	_, err = db.Exec("INSERT INTO vault(name, username, password, other) VALUES(?, ?, ?, ?)", name, username, password, other)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	return nil
@@ -170,7 +169,7 @@ func DeleteEntry(dbFilePath string, id int) error {
 
 	_, err = db.Exec("DELETE FROM vault WHERE id=?", id)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	return nil

@@ -42,6 +42,10 @@ var deleteCmd = &cobra.Command{
 			entries, err = vault.ListVaultEntries(dbPath)
 		}
 		if err != nil {
+			errLock := vault.LockVault(dbPath, vaultKey)
+			if errLock != nil {
+				log.Println(err)
+			}
 			log.Fatalln(err)
 		}
 
@@ -77,6 +81,10 @@ var deleteCmd = &cobra.Command{
 				}
 				err = vault.DeleteEntry(dbPath, chosenId)
 				if err != nil {
+					errLock := vault.LockVault(dbPath, vaultKey)
+					if errLock != nil {
+						log.Println(err)
+					}
 					log.Fatalln(err)
 				}
 				err = vault.LockVault(dbPath, vaultKey)

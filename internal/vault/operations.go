@@ -5,6 +5,7 @@ import (
 	"crypto/cipher"
 	"crypto/rand"
 	"errors"
+	"fmt"
 	_ "github.com/mattn/go-sqlite3"
 	"golang.org/x/crypto/argon2"
 	"io"
@@ -123,7 +124,6 @@ func Aes256GCMEncrypt(plaintext []byte, key *[32]byte) (ciphertext []byte, err e
 	if err != nil {
 		return nil, err
 	}
-
 	return gcm.Seal(nonce, nonce, plaintext, nil), nil
 }
 
@@ -152,17 +152,17 @@ func Aes256GCMDecrypt(ciphertext []byte, key *[32]byte) (plainText []byte, err e
 func DeriveToVaultKey(masterPassword []byte, keyPath string) (*[32]byte, error) {
 	masterKey, err := DeriveMasterKey(string(masterPassword))
 	if err != nil {
-		return nil, err
+		return nil, errors.New("error reading master password from input")
 	}
 
 	// decrypt protected encryption key
 	encryptedKey, err := os.ReadFile(keyPath)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("error reading key file ('%s')", keyPath)
 	}
 	key, err := Aes256GCMDecrypt(encryptedKey, masterKey)
 	if err != nil {
-		return nil, err
+		return nil, errors.New("error decrypting vault key (wrong master password or tampered key file)")
 	}
 
 	return (*[32]byte)(key), nil
